@@ -28,9 +28,13 @@ const text = [
 
 const contItems = document.getElementById("items");
 const contThumbs = document.getElementById("thumbs");
+let item = "";
+let thumb = "";
+const next = document.getElementById("next");
+const prev = document.getElementById("prev");
 
 for (let i = 0; i < items.length; i++) {
-    contItems.innerHTML += `
+    item += `
     <div class="item">
         <img src="${items[i]}" alt="${title[i]}"></img>
     <div class="text">
@@ -38,15 +42,43 @@ for (let i = 0; i < items.length; i++) {
         <p>${text[i]}</p>
     </div>
     </div>`;
-    contThumbs.innerHTML += `
+    thumb += `
     <div class="thumb"><img src="${items[i]}" alt="${title[i]}"></div>`
 }
 
-document.querySelector(".item").classList.add("active");
-document.querySelector(".thumb").classList.add("active");
+contItems.innerHTML = item;
+contThumbs.innerHTML += thumb;
+
+// 2) al click del pulsante next => next.addEventListener (click), 
+// selezionare il div con active attuale, togliere la classe active e darlo a quello dopo. => variabile per la posizione
+// se l'active lo ha il div ultimo => if (activePosition > document.getElementsByClassName("item").length )
+// la variabile activePosition torna a 0
+
+let itemActive = document.getElementsByClassName("item");
+let thumbActive = document.getElementsByClassName("thumb");
+itemActive[0].classList.add("active");
+thumbActive[0].classList.add("active");
 
 
+let activePosition = 0;
+
+document.getElementById("next").addEventListener("click", 
+    function() {
+         activePosition++;
+
+        document.querySelector(".item.active").classList.remove("active");
+        document.querySelector(".thumb.active").classList.remove("active");
+        
+        if (activePosition == 5) {
+            activePosition = 0;
+        }
+
+        document.getElementsByClassName("item")[activePosition].classList.add("active");
+        document.getElementsByClassName("thumb")[activePosition].classList.add("active");
+    }
+);
 
 
-
+// cliccare e dare active a quello dopo e toglierlo a quello prima. Per trackare quello active si puo fare con queryselector .item.active.
+// quando arriva all'ultimo div cioe quando activePosition ha valore della lunghezza dell'array della classe item/thumb allora al click togliere l'active a quello nella posizione lungo = array classi - 1
 
